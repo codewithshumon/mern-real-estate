@@ -1,7 +1,10 @@
-const express = require("express");
-const mongoose = require("mongoose");
-const dotenv = require("dotenv");
+import express from "express";
+import mongoose from "mongoose";
+import dotenv from "dotenv";
 const app = express();
+
+//enternal export
+import userRouter from "./routes/userRoute.js"; //when we export default can change the name
 
 //.env file config
 dotenv.config();
@@ -17,3 +20,5 @@ mongoose
 app.listen(5000, () => {
   console.log("Server started at 5000");
 });
+
+app.use("/api/user", userRouter);

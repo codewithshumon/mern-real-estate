@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "MERN Real Estate Application",
   "main": "index.js",
+  "type": "module",
   "scripts": {
     "start": "nodemon api/index.js"
   },
