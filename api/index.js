@@ -5,9 +5,13 @@ const app = express();
 
 //enternal export
 import userRouter from "./routes/userRoute.js"; //when we export default can change the name
+import authRouter from "./routes/authRoute.js";
 
 //.env file config
 dotenv.config();
+
+///body parser config
+app.use(express.json());
 
 //database connection
 mongoose
@@ -22,3 +26,4 @@ app.listen(5000, () => {
 });
 
 app.use("/api/user", userRouter);
+app.use("/api/auth", authRouter);

@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
 
 const peopleSchema = mongoose.Schema(
   {
@@ -16,10 +16,6 @@ const peopleSchema = mongoose.Schema(
       trim: true,
       lowercase: true,
     },
-    mobile: {
-      type: String,
-      required: true,
-    },
     password: {
       type: String,
       required: true,
@@ -32,4 +28,4 @@ const peopleSchema = mongoose.Schema(
 
 const People = mongoose.model("People", peopleSchema);
 
-module.exports = People;
+export default People;
