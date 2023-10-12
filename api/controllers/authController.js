@@ -41,3 +41,42 @@ export const signin = async (req, res, next) => {
     next(error);
   }
 };
+
+export const google = async (req, res, next) => {
+  try {
+    const user = await People.findOne({ email: req.body.email }); // Use the findOne method on the Mongoose model
+
+    if (user) {
+      const token = jwt.sign({ id: user._id }, process.env.JWT_SECRECT);
+      const { password: pass, ...rest } = user._doc;
+      res
+        .cookie("access_token", token, { httpOnly: true })
+        .status(200)
+        .json(rest); // Send the user data as the response, not `res`
+    } else {
+      // Adding password for Google signup. toString(36) means letter: 26 & digit: 0-9
+      // slice(-8) means randomly creating the last 8 digits of the password.
+      const generatedPassword =
+        Math.random().toString(36).slice(-8) +
+        Math.random().toString(36).slice(-8);
+      const hashedPassword = bcrypt.hashSync(generatedPassword, 10);
+      const googleUser = new People({
+        username:
+          req.body.name.split(" ").join("").toLowerCase() +
+          Math.random().toString(36).slice(-8),
+        email: req.body.email,
+        password: hashedPassword,
+        avatar: req.body.photo,
+      });
+      const result = await googleUser.save();
+      const token = jwt.sign({ id: result._id }, process.env.JWT_SECRECT); // Use `result` here
+      const { password: pass, ...rest } = result._doc; // Use `result` here
+      res
+        .cookie("access_token", token, { httpOnly: true })
+        .status(200)
+        .json(rest); // Send the user data as the response, not `res`
+    }
+  } catch (error) {
+    next(error);
+  }
+};
