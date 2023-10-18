@@ -9,6 +9,7 @@ export const test = (req, res) => {
 };
 
 export const updateUser = async (req, res, next) => {
+  //here we're getting user from token verifyUser.js
   if (req.user.id !== req.params.id)
     return next(errorHandler(401, "Can not update"));
   try {
@@ -33,6 +34,20 @@ export const updateUser = async (req, res, next) => {
     const { password, ...rest } = updateUser._doc;
 
     res.status(200).json(rest);
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const deleteUser = async (req, res, next) => {
+  //here we're getting user from token verifyUser.js
+  if (req.user.id !== req.params.id)
+    return next(errorHandler(401, "Can not delete"));
+
+  try {
+    await People.findByIdAndDelete(req.params.id);
+    res.clearCookie("access_token");
+    res.status(200).json("User has been deleted");
   } catch (error) {
     next(error);
   }
