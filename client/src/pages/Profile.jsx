@@ -1,6 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useRef, useState } from "react";
+import { Link } from "react-router-dom";
 import {
   getDownloadURL,
   getStorage,
@@ -206,6 +207,12 @@ export default function Profile() {
         >
           {loading ? "Loading..." : "Update"}
         </button>
+        <Link
+          className="bg-green-700 text-white uppercase font-semibold p-3 rounded-lg hover:opacity-80 text-center"
+          to={"/create-listing"}
+        >
+          Create Listing
+        </Link>
       </form>
       <div className="flex justify-between mt-5 hover:opacity-90">
         <span
