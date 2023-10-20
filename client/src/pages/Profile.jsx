@@ -12,6 +12,9 @@ import {
   deleteUserFailure,
   deleteUserStart,
   deleteUserSuccess,
+  signoutUserFailure,
+  signoutUserStart,
+  signoutUserSuccess,
   updateUserFailure,
   updateUserStart,
   updateUserSuccess,
@@ -120,6 +123,29 @@ export default function Profile() {
       dispatch(deleteUserFailure(error.message));
     }
   };
+
+  const handleSignOut = async () => {
+    try {
+      dispatch(signoutUserStart());
+      const res = await fetch("/api/auth/signout", {
+        method: "GET",
+      });
+
+      //VERY IMPORTANT
+      //If here we don't use await redux store will lose the
+      //currentUser value/info when click the button and run the fnc handleSubmit()
+      const data = await res.json();
+
+      if (data.success === false) {
+        dispatch(signoutUserFailure(data.message));
+        return;
+      }
+
+      dispatch(signoutUserSuccess(data));
+    } catch (error) {
+      dispatch(signoutUserFailure(error.message));
+    }
+  };
   return (
     <div className="p-4 max-w-lg mx-auto">
       <h1 className="text-3xl font-semibold text-center my-5">Profile</h1>;
@@ -188,7 +214,10 @@ export default function Profile() {
         >
           Delete Account
         </span>
-        <span className="text-red-700 cursor-pointer font-semibold">
+        <span
+          onClick={handleSignOut}
+          className="text-red-700 cursor-pointer font-semibold"
+        >
           Sign Out
         </span>
       </div>
