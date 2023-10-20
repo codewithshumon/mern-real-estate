@@ -6,6 +6,7 @@ import cookieParser from "cookie-parser";
 //enternal export
 import userRouter from "./routes/userRoute.js"; //when we export default can change the name
 import authRouter from "./routes/authRoute.js";
+import listingRouter from "./routes/listingRoute.js";
 
 const app = express();
 
@@ -30,6 +31,7 @@ app.listen(5000, () => {
 
 app.use("/api/user", userRouter);
 app.use("/api/auth", authRouter);
+app.use("/api/listing", listingRouter);
 
 //error middleware
 app.use((err, req, res, next) => {
