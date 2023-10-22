@@ -29,6 +29,9 @@ export default function Profile() {
   const [fileUploadError, setFileUploadError] = useState(false);
   const [formData, setFormData] = useState({});
   const [updateSuccess, setUpdateSuccess] = useState(false);
+  const [showListingError, setShowListingError] = useState(false);
+  const [userListings, setUserListings] = useState([]);
+  const [listingLoading, setListingLoading] = useState(false);
 
   const dispatch = useDispatch();
 
@@ -147,9 +150,44 @@ export default function Profile() {
       dispatch(signoutUserFailure(error.message));
     }
   };
+
+  const handleShowListings = async () => {
+    try {
+      setFileUploadError(false);
+      setListingLoading(true);
+
+      const res = await fetch(`/api/user/listings/${currentUser._id}`, {
+        method: "GET",
+      });
+
+      //VERY IMPORTANT
+      //If here we don't use await redux store will lose the
+      //currentUser value/info when click the button and run the fnc handleSubmit()
+      const data = await res.json();
+
+      if (data.success === false) {
+        setShowListingError(true);
+        setListingLoading(false);
+        return;
+      }
+
+      console.log("data", data);
+      setUserListings(data);
+      setListingLoading(false);
+      console.log("userListings", userListings);
+    } catch (error) {
+      setFileUploadError(true);
+      setListingLoading(false);
+    }
+  };
+
+  userListings.map((listing) => {
+    console.log("listing", listing);
+  });
+
   return (
     <div className="p-4 max-w-lg mx-auto">
-      <h1 className="text-3xl font-semibold text-center my-5">Profile</h1>;
+      <h1 className="text-3xl font-semibold text-center my-5">Profile</h1>
       <form onSubmit={handleSubmit} className="flex flex-col gap-4">
         <input
           onChange={(e) => setFile(e.target.files[0])}
@@ -214,6 +252,10 @@ export default function Profile() {
           Create Listing
         </Link>
       </form>
+      <p className="text-red-700 mt-5 font-semibold">{error ? error : ""}</p>
+      <p className="text-green-700 mt-5 font-semibold">
+        {updateSuccess ? "User is updated" : ""}
+      </p>
       <div className="flex justify-between mt-5 hover:opacity-90">
         <span
           onClick={handleDeleteUser}
@@ -228,10 +270,52 @@ export default function Profile() {
           Sign Out
         </span>
       </div>
-      <p className="text-red-700 mt-5 font-semibold">{error ? error : ""}</p>
-      <p className="text-green-700 mt-5 font-semibold">
-        {updateSuccess ? "User is updated" : ""}
+      <button
+        disabled={loading}
+        onClick={handleShowListings}
+        className="bg-slate-700 text-white w-full uppercase font-semibold p-3 rounded-lg hover:opacity-80 text-center mt-4"
+      >
+        {listingLoading ? "Loading..." : "Show Listings"}
+      </button>
+      <p className="text-red-700 mt-4 text-sm">
+        {showListingError ? "Error show listings" : ""}
       </p>
+
+      {userListings && userListings.length > 0 && (
+        <div className="flex flex-col gap-4">
+          <h1 className="my-4 text-center font-semibold text-2xl">
+            Your Listing Properties
+          </h1>
+          {userListings.map((listing) => (
+            <div
+              key={listing._id}
+              className="border-2 rounded-lg p-3 gap-4 flex justify-between items-center"
+            >
+              <Link to={`/listing/${listing._id}`}>
+                <img
+                  className="w-24 h-24 rounded-lg object-contain"
+                  src={listing.imageUrls[0]}
+                  alt="listing-cover"
+                />
+              </Link>
+              <Link
+                className="text-slate-700 font-semibold flex-1 hover:underline truncate"
+                to={`/listing/${listing._id}`}
+              >
+                <p>{listing.title}</p>
+              </Link>
+              <div className="flex gap-5">
+                <button className="text-red-700 font-semibold uppercase">
+                  Delete
+                </button>
+                <button className="text-green-700 font-semibold uppercase">
+                  Edit
+                </button>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 }

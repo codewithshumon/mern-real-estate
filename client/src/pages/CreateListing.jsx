@@ -14,7 +14,7 @@ export default function CreateListing() {
   const navigate = useNavigate();
   const [files, setFiles] = useState([]);
   const [formData, setFormData] = useState({
-    imageUrl: [],
+    imageUrls: [],
     title: "",
     description: "",
     address: "",
@@ -38,7 +38,7 @@ export default function CreateListing() {
     //as handleImageSubmit type=button, no need to e.preventDefault().
     //Cause by declearing type to button it not a sumbit button/function for form
 
-    if (files.length > 0 && files.length + formData.imageUrl.length < 7) {
+    if (files.length > 0 && files.length + formData.imageUrls.length < 7) {
       setUploading(true);
       setImageUploadError(false);
       const promises = [];
@@ -51,7 +51,7 @@ export default function CreateListing() {
         .then((urls) => {
           setFormData({
             ...formData,
-            imageUrl: formData.imageUrl.concat(urls),
+            imageUrls: formData.imageUrls.concat(urls),
           });
 
           //if there is a error by previous stpe then error will be remove
@@ -96,7 +96,7 @@ export default function CreateListing() {
   const handleRemoveImage = (index) => {
     setFormData({
       ...formData,
-      imageUrl: formData.imageUrl.filter((url, i) => i !== index),
+      imageUrl: formData.imageUrls.filter((url, i) => i !== index),
     });
   };
 
@@ -137,7 +137,7 @@ export default function CreateListing() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      if (formData.imageUrl.length < 1)
+      if (formData.imageUrls.length < 1)
         return setError("Upload minimum one image");
 
       //by adding '+' before formData.regularPrice & formData.discountPrice it will prevent
@@ -350,11 +350,11 @@ export default function CreateListing() {
               multiple
             />
             <p className="text-red-700 text-sm mt-2">{imageUploadError}</p>
-            {formData.imageUrl.map((urls, index) => (
+            {formData.imageUrls.map((urls, index) => (
               <>
                 {/* when we use map then we need to add key. like here key={urls} */}
                 <div
-                  key={urls}
+                  key={index}
                   className="flex justify-between p-3 border items-center rounded-lg"
                 >
                   <img
