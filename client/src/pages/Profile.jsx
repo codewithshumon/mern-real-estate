@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unescaped-entities */
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useRef, useState } from "react";
@@ -30,8 +31,11 @@ export default function Profile() {
   const [formData, setFormData] = useState({});
   const [updateSuccess, setUpdateSuccess] = useState(false);
   const [showListingError, setShowListingError] = useState(false);
+  const [showListingMessageMessageError, setShowListingMessageError] =
+    useState(false);
   const [userListings, setUserListings] = useState([]);
   const [listingLoading, setListingLoading] = useState(false);
+  const [listingDeleteError, setListingDeleteError] = useState(false);
 
   const dispatch = useDispatch();
 
@@ -171,20 +175,44 @@ export default function Profile() {
         return;
       }
 
-      console.log("data", data);
+      if (data.length === 0) {
+        setListingLoading(false);
+        return setShowListingMessageError(true);
+      }
+
       setUserListings(data);
       setListingLoading(false);
-      console.log("userListings", userListings);
+      setShowListingMessageError(false);
     } catch (error) {
       setFileUploadError(true);
       setListingLoading(false);
     }
   };
 
-  userListings.map((listing) => {
-    console.log("listing", listing);
-  });
+  const handleDeleteListing = async (listingId) => {
+    setListingDeleteError(false);
+    try {
+      const res = await fetch(`/api/listing/delete/${listingId}`, {
+        method: "DELETE",
+      });
 
+      //VERY IMPORTANT
+      //If here we don't use await redux store will lose the
+      //currentUser value/info when click the button and run the fnc handleSubmit()
+      const data = await res.json();
+
+      if (data.success === false) {
+        setListingDeleteError(true);
+        return;
+      }
+
+      setUserListings((prevData) =>
+        prevData.filter((listing) => listing._id !== listingId)
+      );
+    } catch (error) {
+      setListingDeleteError(true);
+    }
+  };
   return (
     <div className="p-4 max-w-lg mx-auto">
       <h1 className="text-3xl font-semibold text-center my-5">Profile</h1>
@@ -280,6 +308,24 @@ export default function Profile() {
       <p className="text-red-700 mt-4 text-sm">
         {showListingError ? "Error show listings" : ""}
       </p>
+      <p className="text-red-700 mt-4 text-sm">
+        {listingDeleteError ? `Error deleting listings` : ""}
+      </p>
+      <p className="text-red-700 mt-4 text-sm">
+        {showListingMessageMessageError ? (
+          <p>
+            You don't have any listing yet!{" "}
+            <Link
+              className="font-semibold text-green-700 hover:underline"
+              to={"/create-listing"}
+            >
+              Create a new listing
+            </Link>
+          </p>
+        ) : (
+          ""
+        )}
+      </p>
 
       {userListings && userListings.length > 0 && (
         <div className="flex flex-col gap-4">
@@ -305,7 +351,10 @@ export default function Profile() {
                 <p>{listing.title}</p>
               </Link>
               <div className="flex gap-5">
-                <button className="text-red-700 font-semibold uppercase">
+                <button
+                  onClick={() => handleDeleteListing(listing._id)}
+                  className="text-red-700 font-semibold uppercase"
+                >
                   Delete
                 </button>
                 <button className="text-green-700 font-semibold uppercase">

@@ -33,7 +33,6 @@ export default function CreateListing() {
   const [imageUploadError, setImageUploadError] = useState(false);
   const [uplading, setUploading] = useState(false);
 
-  console.log("formData", formData);
   const handleImageSubmit = () => {
     //as handleImageSubmit type=button, no need to e.preventDefault().
     //Cause by declearing type to button it not a sumbit button/function for form
