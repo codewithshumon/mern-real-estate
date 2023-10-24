@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useEffect, useState } from "react";
 import {
   getDownloadURL,
   getStorage,
@@ -7,9 +8,9 @@ import {
 } from "firebase/storage";
 import { app } from "../firebase";
 import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
-export default function CreateListing() {
+export default function UpdateListing() {
   const { currentUser } = useSelector((state) => state.user);
   const navigate = useNavigate();
   const [files, setFiles] = useState([]);
@@ -32,6 +33,26 @@ export default function CreateListing() {
   const [loading, setLoading] = useState(false);
   const [imageUploadError, setImageUploadError] = useState(false);
   const [uplading, setUploading] = useState(false);
+  const params = useParams();
+
+  useEffect(() => {
+    const fetchListing = async () => {
+      //here we use params.listingId. cause we've set 'update-listing/:listingId in app.jsx
+      const listingId = params.listingId;
+
+      const res = await fetch(`/api/listing/get/${listingId}`, {
+        method: "GET",
+      });
+      const data = await res.json();
+
+      if (data.success === false) {
+        console.log(data.message);
+        return;
+      }
+      setFormData(data);
+    };
+    fetchListing();
+  }, []);
 
   const handleImageSubmit = () => {
     //as handleImageSubmit type=button, no need to e.preventDefault().
@@ -147,7 +168,9 @@ export default function CreateListing() {
       setLoading(true);
       setError(false);
 
-      const res = await fetch("/api/listing/create", {
+      //here we use params.listingId. cause we've set 'update-listing/:listingId in app.jsx
+      //and getting prams form 'useParms' react-router-dom
+      const res = await fetch(`/api/listing/update/${params.listingId}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -176,7 +199,7 @@ export default function CreateListing() {
   return (
     <main className="p-3 max-w-4xl mx-auto">
       <h1 className="text-3xl font-semibold text-center my-7">
-        Create a Listing
+        Update your Listing details
       </h1>
       <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-6">
         {/* left side form */}
@@ -385,7 +408,7 @@ export default function CreateListing() {
             disabled={loading || uplading} //also disabled when uplading images
             className="p-4 mt-6 font-semibold text-xl bg-slate-700 rounded-lg uppercase text-white hover:opacity-90 disabled:opacity-70"
           >
-            {loading ? "Creating..." : "Create Listing"}
+            {loading ? "Updating..." : "Update Listing"}
           </button>
         </div>
       </form>

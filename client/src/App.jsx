@@ -8,6 +8,7 @@ import Profile from "./pages/Profile";
 import Header from "./assets/components/Header";
 import PrivateRoute from "./assets/components/privateRoute";
 import CreateListing from "./pages/CreateListing";
+import UpdateListing from "./pages/UpdateListing";
 
 export default function App() {
   return (
@@ -21,6 +22,12 @@ export default function App() {
         <Route element={<PrivateRoute />}>
           <Route path="/profile" element={<Profile />} />
           <Route path="/create-listing" element={<CreateListing />}></Route>
+          {/* '/update-listing/:listingId' in here like "":listingId" need to use it
+          in the UpdateListing.jsx inside a useEffect */}
+          <Route
+            path="/update-listing/:listingId"
+            element={<UpdateListing />}
+          ></Route>
         </Route>
       </Routes>
     </BrowserRouter>
