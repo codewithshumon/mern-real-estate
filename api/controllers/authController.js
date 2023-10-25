@@ -27,7 +27,9 @@ export const signin = async (req, res, next) => {
     const validPassword = bcrypt.compareSync(password, validUser.password);
     console.log("password", validPassword);
     if (!validPassword) return next(errorHandler(404, "Wrong credential!"));
-    const token = jwt.sign({ id: validUser._id }, process.env.JWT_SECRECT);
+    const token = jwt.sign({ id: validUser._id }, process.env.JWT_SECRECT, {
+      expiresIn: "3650d",
+    });
 
     //to remove passport distrac the passowrd form obj and use _doc to. othewise won't work
     const { password: pass, ...rest } = validUser._doc;
@@ -47,7 +49,9 @@ export const google = async (req, res, next) => {
     const user = await People.findOne({ email: req.body.email }); // Use the findOne method on the Mongoose model
 
     if (user) {
-      const token = jwt.sign({ id: user._id }, process.env.JWT_SECRECT);
+      const token = jwt.sign({ id: user._id }, process.env.JWT_SECRECT, {
+        expiresIn: "3650d",
+      });
       const { password: pass, ...rest } = user._doc;
       res
         .cookie("access_token", token, { httpOnly: true })
@@ -69,7 +73,9 @@ export const google = async (req, res, next) => {
         avatar: req.body.photo,
       });
       const result = await googleUser.save();
-      const token = jwt.sign({ id: result._id }, process.env.JWT_SECRECT); // Use `result` here
+      const token = jwt.sign({ id: result._id }, process.env.JWT_SECRECT, {
+        expiresIn: "3650d",
+      }); // Use `result` here
       const { password: pass, ...rest } = result._doc; // Use `result` here
       res
         .cookie("access_token", token, { httpOnly: true })

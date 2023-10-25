@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 import ShowMoreText from "react-show-more-text";
 import { Swiper, SwiperSlide } from "swiper/react";
 import SwiperCore from "swiper";
@@ -9,20 +11,22 @@ import {
   FaBath,
   FaBed,
   FaChair,
-  FaMapMarkedAlt,
   FaMapMarkerAlt,
   FaParking,
   FaShare,
 } from "react-icons/fa";
+import Contact from "../assets/components/Contact";
 
 export default function Listing() {
   SwiperCore.use([Navigation, Pagination]);
   const params = useParams();
+  const { currentUser } = useSelector((state) => state.user);
 
   const [listing, setListing] = useState(null); // Use square brackets for destructuring
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
   const [copied, setCopied] = useState(false);
+  const [contact, setContact] = useState(false);
 
   useEffect(() => {
     const fetchListing = async () => {
@@ -69,7 +73,7 @@ export default function Listing() {
             {listing.imageUrls.map((url) => (
               <SwiperSlide key={url}>
                 <div
-                  className="relative h-[350px]"
+                  className="relative h-[400px]"
                   style={{
                     background: `url(${url}) center no-repeat`,
                     backgroundSize: "cover",
@@ -114,12 +118,12 @@ export default function Listing() {
               {listing.address}
             </p>
             <div className="flex gap-4">
-              <p className="bg-slate-900 w-full max-w-[200px] text-white text-center p-2 rounded-md">
+              <p className="bg-slate-900 w-full font-semibold max-w-[200px] text-white text-center p-2 rounded-md">
                 {listing.type === "rent" ? "For Rent" : "For Sale"}
               </p>
               {listing.offer && (
-                <p className="bg-green-900 w-full max-w-[200px] text-white text-center p-2 rounded-md">
-                  ${+listing.regularPrice - +listing.discountPrice} Off
+                <p className="bg-green-900 w-full font-semibold max-w-[200px] text-white text-center p-2 rounded-md">
+                  ${+listing.regularPrice - +listing.discountPrice} Price cut
                 </p>
               )}
             </div>
@@ -155,7 +159,7 @@ export default function Listing() {
                 </li>
               </ul>
               <div className="text-slate-800">
-                <span className="font-bold text-black">Description: </span>
+                <span className="font-bold text-black">About Home</span>
                 <ShowMoreText
                   lines={4}
                   more="See more"
@@ -164,6 +168,38 @@ export default function Listing() {
                 >
                   {listing.description}
                 </ShowMoreText>
+              </div>
+              <div className="flex justify-center mt-5">
+                {currentUser ? (
+                  listing.userRef === currentUser._id ? (
+                    <Link
+                      to={`/update-listing/${listing._id}`}
+                      className="p-3 bg-slate-700 rounded-lg text-white uppercase hover:opacity-80"
+                    >
+                      Update Listing
+                    </Link>
+                  ) : (
+                    !contact && (
+                      <button
+                        onClick={() => setContact(true)}
+                        className="p-3 bg-slate-700 rounded-lg text-white uppercase hover:opacity-80"
+                      >
+                        Contact Owner
+                      </button>
+                    )
+                  )
+                ) : (
+                  !contact && (
+                    <button
+                      onClick={() => setContact(true)}
+                      className="p-3 bg-slate-700 rounded-lg text-white uppercase hover:opacity-80"
+                    >
+                      Contact Owner
+                    </button>
+                  )
+                )}
+                {/* sending listing info as a props to Contact.jsx */}
+                {contact && <Contact listing={listing} />}
               </div>
             </div>
           </div>
