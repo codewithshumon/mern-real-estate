@@ -329,7 +329,7 @@ export default function Profile() {
 
       {userListings && userListings.length > 0 && (
         <div className="flex flex-col gap-4">
-          <h1 className="my-4 text-center font-semibold text-2xl">
+          <h1 className="text-center font-semibold text-2xl">
             Your Listing Properties
           </h1>
           {userListings.map((listing) => (

@@ -38,7 +38,8 @@ export default function Contact({ listing }) {
       {owner ? (
         <div className="flex flex-col gap-2">
           <p className="">
-            Contact <span className="font-semibold">{owner.username}</span> for{" "}
+            Send your interest to{" "}
+            <span className="font-semibold">{owner.username}</span> for{" "}
             <span>{listing.title.toLowerCase()}</span>
           </p>
           <textarea
@@ -50,12 +51,15 @@ export default function Contact({ listing }) {
             placeholder="Write your message here..."
             onChange={textValueChange}
           ></textarea>
-          <Link
+          <a //here we can use "Link" insted of <a> tag
+            href={`mailto:${owner.email}?subject=Regarding ${listing.title}&body=${message}`}
+            // Add "_blank" or "blank" to open the link in a new tab. if
+            target="_blank"
             className="bg-slate-700 text-white text-center p-3 uppercase rounded-lg hover:opacity-80"
-            to={`mailto:${owner.email}?subject=Regarding ${listing.title}&body=${message}`}
+            rel="noreferrer"
           >
             Send Message
-          </Link>
+          </a>
         </div>
       ) : (
         <div>

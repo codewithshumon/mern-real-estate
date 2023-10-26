@@ -174,28 +174,32 @@ export default function Listing() {
                   listing.userRef === currentUser._id ? (
                     <Link
                       to={`/update-listing/${listing._id}`}
-                      className="p-3 bg-slate-700 rounded-lg text-white uppercase hover:opacity-80"
+                      className="p-3 w-[50%] text-center bg-slate-700 rounded-lg text-white uppercase hover:opacity-80"
                     >
                       Update Listing
                     </Link>
                   ) : (
                     !contact && (
-                      <button
-                        onClick={() => setContact(true)}
-                        className="p-3 bg-slate-700 rounded-lg text-white uppercase hover:opacity-80"
-                      >
-                        Contact Owner
-                      </button>
+                      <div className="w-[50%]">
+                        <button
+                          onClick={() => setContact(true)}
+                          className="bg-slate-700 text-white rounded-lg uppercase hover:opacity-80 p-3 w-full" // Add w-full class here
+                        >
+                          Contact Owner
+                        </button>
+                      </div>
                     )
                   )
                 ) : (
                   !contact && (
-                    <button
-                      onClick={() => setContact(true)}
-                      className="p-3 bg-slate-700 rounded-lg text-white uppercase hover:opacity-80"
-                    >
-                      Contact Owner
-                    </button>
+                    <div className="w-[50%]">
+                      <button
+                        onClick={() => setContact(true)}
+                        className="bg-slate-700 text-white rounded-lg uppercase hover:opacity-80 p-3 w-full" // Add w-full class here
+                      >
+                        Contact Owner
+                      </button>
+                    </div>
                   )
                 )}
                 {/* sending listing info as a props to Contact.jsx */}
