@@ -232,7 +232,7 @@ export default function UpdateListing() {
             className="border p-3 rounded-lg"
             id="address"
             minLength="10"
-            maxLength="50"
+            maxLength="65"
             required
             onChange={handleChange}
             value={formData.address}

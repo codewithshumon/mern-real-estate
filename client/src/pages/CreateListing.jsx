@@ -208,7 +208,7 @@ export default function CreateListing() {
             placeholder="Address"
             className="border p-3 rounded-lg"
             id="address"
-            maxLength="50"
+            maxLength="65"
             minLength="10"
             required
             onChange={handleChange}
