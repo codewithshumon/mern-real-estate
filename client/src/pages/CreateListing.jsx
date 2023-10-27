@@ -186,7 +186,7 @@ export default function CreateListing() {
             placeholder="Title"
             className="border p-3 rounded-lg"
             id="title"
-            maxLength="62"
+            maxLength="70"
             minLength="10"
             required
             onChange={handleChange}
@@ -197,7 +197,8 @@ export default function CreateListing() {
             placeholder="Description"
             className="border p-3 rounded-lg"
             id="description"
-            minLength="10"
+            maxLength="500"
+            minLength="20"
             required
             onChange={handleChange}
             value={formData.description}
@@ -207,6 +208,7 @@ export default function CreateListing() {
             placeholder="Address"
             className="border p-3 rounded-lg"
             id="address"
+            maxLength="50"
             minLength="10"
             required
             onChange={handleChange}

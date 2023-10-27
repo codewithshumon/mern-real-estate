@@ -209,7 +209,7 @@ export default function UpdateListing() {
             placeholder="Title"
             className="border p-3 rounded-lg"
             id="title"
-            maxLength="62"
+            maxLength="70"
             minLength="10"
             required
             onChange={handleChange}
@@ -220,7 +220,8 @@ export default function UpdateListing() {
             placeholder="Description"
             className="border p-3 rounded-lg"
             id="description"
-            minLength="10"
+            minLength="20"
+            maxLength="500"
             required
             onChange={handleChange}
             value={formData.description}
@@ -231,6 +232,7 @@ export default function UpdateListing() {
             className="border p-3 rounded-lg"
             id="address"
             minLength="10"
+            maxLength="50"
             required
             onChange={handleChange}
             value={formData.address}
