@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import ListingItem from "../assets/components/ListingItem";
 
 export default function Search() {
   const navigate = useNavigate();
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
-  const [listing, setListing] = useState({});
+  const [listing, setListing] = useState([]);
   const [sideberdata, setSideberdata] = useState({
     searchTerm: "",
     type: "all",
@@ -16,8 +17,6 @@ export default function Search() {
     sort: "created_at",
     order: "desc",
   });
-
-  console.log(listing);
 
   const handleChange = (e) => {
     //seting sideberdata if input id is all/rent/sale
@@ -139,8 +138,8 @@ export default function Search() {
   }, [location.search]);
 
   return (
-    <div className="flex flex-col md:flex-row gap-2">
-      <div className="p-7 self-center w-full md:w-[50%] border-b-2 md:border-r-2 md:min-h-screen">
+    <div className="flex flex-col md:flex-row gap-1">
+      <div className="p-7 w-full sm:w-[30%] border-b-2 md:border-r-2 md:min-h-screen">
         <form className="flex flex-col gap-7" onSubmit={handleSubmit}>
           <div className="flex items-center gap-2">
             <label className="font-semibold whitespace-nowrap">
@@ -240,10 +239,27 @@ export default function Search() {
           </button>
         </form>
       </div>
-      <div className="w-full">
+      <div className=" flex-1">
         <h1 className="font-bold text-3xl border-b p-3 text-slate-700">
-          Listing results
+          Listing Results
         </h1>
+        <div className="p-7 flex flex-wrap gap-4">
+          {!loading && listing.length === 0 && (
+            <p className="text-2xl font-bold text-slate-800 text-center mt-10">
+              No listing found!
+            </p>
+          )}
+          {loading && (
+            <p className="text-2xl font-semibold text-slate-800 text-center mt-10">
+              Loading...
+            </p>
+          )}
+          {listing &&
+            listing.map((listing) => (
+              <ListingItem key={listing._id} listing={listing} />
+              //here wer are senting listing array to ListingItem.jsx as props
+            ))}
+        </div>
       </div>
     </div>
   );

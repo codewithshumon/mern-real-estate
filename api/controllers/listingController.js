@@ -93,7 +93,9 @@ export const searchListings = async (req, res, next) => {
     const type = parseInt(req.query.type);
     //here type value could be sale/rent/undefined/all.
     //same here if type value is "undefine or all" we need "type= sale & rent" listing
-    if (type === undefined || type === "false") type = { $in: [true, false] };
+    if (type === undefined || type === "all") {
+      type = { $in: ["sale", "rent"] };
+    }
 
     const searchTerm = req.query.searchTerm || "";
 
