@@ -4,21 +4,21 @@ import { MdLocationOn } from "react-icons/md";
 
 export default function ListingItem({ listing }) {
   return (
-    <div className="bg-white flex flex-col justify-between gap-2 shadow-md hover:shadow-lg mt-7 transition-shadow overflow-hidden rounded-lg w-full md:w-[30%]">
+    <div className="bg-white flex flex-col justify-between gap-2 shadow-md hover:shadow-xl mt-7 overflow-hidden rounded-lg w-full md:w-[30%] hover:scale-105 transition-all duration-200">
       <Link to={`/listing/${listing._id}`}>
         <div>
           <img
             src={listing.imageUrls[0]}
             alt="listing cover"
-            className="h-[320px md:h-[220px] w-full object-cover hover:scale-105 transition-scale duration-300"
+            className="h-[320px md:h-[200px] w-full object-cover hover:scale-105 transition-scale duration-300"
           />
           <div className="p-4 flex flex-col gap-2">
             <p className="text-lg font-semibold text-slate-700 truncate">
               {listing.title}
             </p>
-            <div className="flex justify-center items-center gap-2">
+            <div className="flex items-center gap-2">
               <MdLocationOn className="h-5 w-5 text-green-700" />
-              <p className="text-slate-700 text-sm truncate">
+              <p className="text-green-700 text-sm truncate">
                 {listing.address}
               </p>
             </div>
@@ -37,24 +37,24 @@ export default function ListingItem({ listing }) {
               </span>
             </div>
             <div className="flex justify-between flex-wrap">
-              <div className="font-bold text-sm text-slate-700">
+              <div className="font-bold text-xs text-slate-700">
                 {listing.bedrooms > 1
                   ? `${listing.bedrooms} Beds`
                   : `${listing.bedrooms} Bed`}
               </div>
-              <div className="font-bold text-sm text-slate-700">
+              <div className="font-bold text-xs text-slate-700">
                 {listing.bathrooms > 1
                   ? `${listing.bathrooms} Baths`
                   : `${listing.bathrooms} Bath`}
               </div>
-              <div className="font-bold text-sm text-slate-700">
+              <div className="font-bold text-xs text-slate-700">
                 {listing.parking ? (
                   `Parking space`
                 ) : (
                   <span className="text-red-700">No Parking</span>
                 )}
               </div>
-              <div className="font-bold text-sm text-slate-700">
+              <div className="font-bold text-xs text-slate-700">
                 {listing.furnished ? (
                   `Furnished`
                 ) : (

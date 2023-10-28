@@ -139,7 +139,7 @@ export default function Search() {
 
   return (
     <div className="flex flex-col md:flex-row gap-1">
-      <div className="p-7 w-full sm:w-[30%] border-b-2 md:border-r-2 md:min-h-screen">
+      <div className="p-7  w-full md:min-w-[300px] md:max-w-[350px] border-b-2 md:border-r-2 md:min-h-screen">
         <form className="flex flex-col gap-7" onSubmit={handleSubmit}>
           <div className="flex items-center gap-2">
             <label className="font-semibold whitespace-nowrap">
@@ -243,7 +243,7 @@ export default function Search() {
         <h1 className="font-bold text-3xl border-b p-3 text-slate-700">
           Listing Results
         </h1>
-        <div className="p-7 flex flex-wrap gap-4">
+        <div className="flex justify-center">
           {!loading && listing.length === 0 && (
             <p className="text-2xl font-bold text-slate-800 text-center mt-10">
               No listing found!
@@ -254,6 +254,8 @@ export default function Search() {
               Loading...
             </p>
           )}
+        </div>
+        <div className="p-7 flex flex-wrap gap-4">
           {listing &&
             listing.map((listing) => (
               <ListingItem key={listing._id} listing={listing} />
