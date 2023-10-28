@@ -71,33 +71,34 @@ export const searchListings = async (req, res, next) => {
     const limit = parseInt(req.query.limit) || 9;
     const startIndex = parseInt(req.query.startIndex) || 0;
 
-    const offer = parseInt(req.query.offer);
+    let offer = req.query.offer;
+
     //here offer value could be fales/true/undefined.
     //we are searching if offer value is "false" we need "offer= true& false" both listing
-    //we can use undefine with qoute "undefined" or without qoute undefined
-    if (offer === "undefined" || offer === "false")
+    //we can need to use undefine  without qoute undefined cause as it's a variable
+    if (offer === undefined || offer === "false")
       offer = { $in: [true, false] };
 
-    const furnished = parseInt(req.query.furnished);
+    let furnished = req.query.furnished;
     //here furnished value could be fales/true/undefined.
     //same here if furnished value is "false" we need "furnished= true& false" both listing
     if (furnished === undefined || furnished === "false")
       furnished = { $in: [true, false] };
 
-    const parking = parseInt(req.query.parking);
+    let parking = req.query.parking;
 
-    //we can use undefine with qoute "undefined" or without qoute undefined
-    if (parking === "undefined" || parking === "false")
+    //we can need to use undefine  without qoute undefined cause as it's a variable
+    if (parking === undefined || parking === "false")
       parking = { $in: [true, false] };
 
-    const type = parseInt(req.query.type);
+    let type = req.query.type;
     //here type value could be sale/rent/undefined/all.
     //same here if type value is "undefine or all" we need "type= sale & rent" listing
     if (type === undefined || type === "all") {
       type = { $in: ["sale", "rent"] };
     }
 
-    const searchTerm = req.query.searchTerm || "";
+    let searchTerm = req.query.searchTerm || "";
 
     const sort = req.query.sort || "createdAt";
 
@@ -106,6 +107,10 @@ export const searchListings = async (req, res, next) => {
 
     const listing = await Listing.find({
       title: { $regex: searchTerm, $options: "i" },
+      type,
+      offer,
+      furnished,
+      parking,
     })
       .sort({
         //here sort means how it will sort listing data

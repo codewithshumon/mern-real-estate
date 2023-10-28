@@ -17,6 +17,9 @@ export default function Search() {
     sort: "created_at",
     order: "desc",
   });
+  const [showMore, setShowMore] = useState(false);
+
+  console.log("listing", listing);
 
   const handleChange = (e) => {
     //seting sideberdata if input id is all/rent/sale
@@ -113,6 +116,7 @@ export default function Search() {
     }
 
     const fetchListing = async () => {
+      setShowMore(false);
       setError(false);
       setLoading(true);
 
@@ -128,6 +132,9 @@ export default function Search() {
         return;
       }
 
+      if (data.length > 8) {
+        setShowMore(true);
+      }
       //setting the coverted data to listing state
       setListing(data);
       setLoading(false);
@@ -136,6 +143,38 @@ export default function Search() {
     fetchListing();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location.search]);
+
+  const onShowMoreclick = async () => {
+    setError(false);
+    setLoading(true);
+    //getting previous listing data length, so we can skip those number for next search
+    const numberOfListing = listing.length;
+    const startIndex = numberOfListing;
+
+    const urlParams = new URLSearchParams(location.search);
+    urlParams.set("startIndex", startIndex);
+    const searchQuery = urlParams.toString();
+
+    //geting search result from database of listing
+    const res = await fetch(`/api/listing/search?${searchQuery}`);
+    //then converting to json the res that we get from database of listing
+    const data = await res.json();
+
+    if (!data) {
+      setError(true);
+      return;
+    }
+
+    //new searching listing data if less than 9
+    if (data.length < 9) {
+      setShowMore(false);
+    }
+    //setting the coverted data to listing state
+    //here we are keeping previous arrray listing data and adding new array data
+    setListing([...listing, ...data]);
+    setLoading(false);
+    setError(false);
+  };
 
   return (
     <div className="flex flex-col md:flex-row gap-1">
@@ -239,19 +278,25 @@ export default function Search() {
           </button>
         </form>
       </div>
-      <div className=" flex-1">
+      {/* //overflow-x-hidden */}
+      <div className=" flex-1 ">
         <h1 className="font-bold text-3xl border-b p-3 text-slate-700">
           Listing Results
         </h1>
         <div className="flex justify-center">
+          {loading && listing.length < 10 && (
+            <p className="text-2xl font-semibold text-slate-800 text-center mt-10">
+              Loading...
+            </p>
+          )}
           {!loading && listing.length === 0 && (
             <p className="text-2xl font-bold text-slate-800 text-center mt-10">
               No listing found!
             </p>
           )}
-          {loading && (
-            <p className="text-2xl font-semibold text-slate-800 text-center mt-10">
-              Loading...
+          {error && listing.length < 10 && (
+            <p className="text-2xl font-semibold text-red-800 text-center w-full mt-10">
+              Error showing lising
             </p>
           )}
         </div>
@@ -261,6 +306,24 @@ export default function Search() {
               <ListingItem key={listing._id} listing={listing} />
               //here wer are senting listing array to ListingItem.jsx as props
             ))}
+          {showMore && (
+            <button
+              onClick={onShowMoreclick}
+              className="text-green-700 hover:underline p-3 w-full text-center"
+            >
+              Show More
+            </button>
+          )}
+          {listing.length > 9 && loading && (
+            <p className="text-2xl font-semibold text-slate-800 text-center w-full mt-10">
+              Loading...
+            </p>
+          )}
+          {listing.length > 9 && error && (
+            <p className="text-2xl font-semibold text-red-800 text-center w-full mt-10">
+              Error showing lising
+            </p>
+          )}
         </div>
       </div>
     </div>
