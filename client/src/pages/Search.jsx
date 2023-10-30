@@ -307,12 +307,14 @@ export default function Search() {
               //here wer are senting listing array to ListingItem.jsx as props
             ))}
           {showMore && (
-            <button
-              onClick={onShowMoreclick}
-              className="text-green-700 hover:underline p-3 w-full text-center"
-            >
-              Show More
-            </button>
+            <div className="flex justify-center w-full">
+              <button
+                onClick={onShowMoreclick}
+                className="bg-slate-300 text-green-700 font-semibold hover:underline p-3 rounded-xl"
+              >
+                Show More
+              </button>
+            </div>
           )}
           {listing.length > 9 && loading && (
             <p className="text-2xl font-semibold text-slate-800 text-center w-full mt-10">
