@@ -1,28 +1,28 @@
 /* eslint-disable react/no-unescaped-entities */
-import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
 //***all imported for swiper******//
-import { Swiper, SwiperSlide } from 'swiper/react';
-import SwiperCore from 'swiper';
-import { Navigation, Pagination, Autoplay } from 'swiper/modules';
-import 'swiper/css/bundle';
-import ListingItem from '../assets/components/ListingItem';
+import { Swiper, SwiperSlide } from "swiper/react";
+import SwiperCore from "swiper";
+import { Navigation, Pagination, Autoplay } from "swiper/modules";
+import "swiper/css/bundle";
+import ListingItem from "../assets/components/ListingItem";
 //***all imported for swiper******//
 
 // Adding a custome style to Link dive
 const customStyles = {
-  backgroundColor: '#E2E8F0', // Background color
-  color: '#1E40AF', // Text color
+  backgroundColor: "#E2E8F0", // Background color
+  color: "#1E40AF", // Text color
 };
 
 //adding selected images
 const imageUrls = [
-  'https://firebasestorage.googleapis.com/v0/b/mern-real-estate-f0bc6.appspot.com/o/home%20slider%202.jpg1698491238300?alt=media&token=8a0cb630-fc84-47a0-93d4-0c8ef626ec37',
-  'https://firebasestorage.googleapis.com/v0/b/mern-real-estate-f0bc6.appspot.com/o/home%20slider%203.jpg1698491238302?alt=media&token=433eee9a-1186-4937-9150-4aa3252910e6',
-  'https://firebasestorage.googleapis.com/v0/b/mern-real-estate-f0bc6.appspot.com/o/home%20slider%204.jpg1698491238302?alt=media&token=f57e38f4-e20c-4851-928e-4685a2e22dd8',
-  'https://firebasestorage.googleapis.com/v0/b/mern-real-estate-f0bc6.appspot.com/o/home%20slider%207.jpg1698491248137?alt=media&token=f649d926-237b-49b6-a1c2-a5d6ef968154',
-  'https://firebasestorage.googleapis.com/v0/b/mern-real-estate-f0bc6.appspot.com/o/home%20slider.jpg1698491248137?alt=media&token=1c3d1370-dbb4-49c8-b2b4-2187a90e3c8a',
+  "https://firebasestorage.googleapis.com/v0/b/mern-real-estate-f0bc6.appspot.com/o/home%20slider%202.jpg1698491238300?alt=media&token=8a0cb630-fc84-47a0-93d4-0c8ef626ec37",
+  "https://firebasestorage.googleapis.com/v0/b/mern-real-estate-f0bc6.appspot.com/o/home%20slider%203.jpg1698491238302?alt=media&token=433eee9a-1186-4937-9150-4aa3252910e6",
+  "https://firebasestorage.googleapis.com/v0/b/mern-real-estate-f0bc6.appspot.com/o/home%20slider%204.jpg1698491238302?alt=media&token=f57e38f4-e20c-4851-928e-4685a2e22dd8",
+  "https://firebasestorage.googleapis.com/v0/b/mern-real-estate-f0bc6.appspot.com/o/home%20slider%207.jpg1698491248137?alt=media&token=f649d926-237b-49b6-a1c2-a5d6ef968154",
+  "https://firebasestorage.googleapis.com/v0/b/mern-real-estate-f0bc6.appspot.com/o/home%20slider.jpg1698491248137?alt=media&token=1c3d1370-dbb4-49c8-b2b4-2187a90e3c8a",
 ];
 
 export default function Home() {
@@ -31,7 +31,7 @@ export default function Home() {
   const [offerListings, setOfferListings] = useState([]);
   const [rentListings, setRentListings] = useState([]);
   const [saleListings, setSaleListings] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
 
   useEffect(() => {
@@ -39,7 +39,11 @@ export default function Home() {
       try {
         setError(false);
         setLoading(true);
-        const res = await fetch('/api/listing/search?offer=true&limit=4');
+        const res = await fetch(
+          `${
+            import.meta.env.VITE_BASE_URL
+          }/api/listing/search?offer=true&limit=4`
+        );
         const data = await res.json();
         setOfferListings(data);
         setError(false);
@@ -48,6 +52,7 @@ export default function Home() {
         setError(false);
         console.log(error);
         setError(true);
+        setLoading(false);
       }
     };
     fetchOfferListings();
@@ -56,7 +61,11 @@ export default function Home() {
       try {
         setError(false);
         setLoading(true);
-        const res = await fetch('/api/listing/search?type=rent&limit=4');
+        const res = await fetch(
+          `${
+            import.meta.env.VITE_BASE_URL
+          }/api/listing/search?type=rent&limit=4`
+        );
         const data = await res.json();
         setRentListings(data);
         setError(false);
@@ -65,20 +74,27 @@ export default function Home() {
         setError(false);
         console.log(error);
         setError(true);
+        setLoading(false);
       }
     };
     const fetchSaletListings = async () => {
       try {
         setError(false);
         setLoading(true);
-        const res = await fetch('/api/listing/search?type=sale&limit=4');
+        const res = await fetch(
+          `${
+            import.meta.env.VITE_BASE_URL
+          }/api/listing/search?type=sale&limit=4`
+        );
         const data = await res.json();
         setSaleListings(data);
         setError(false);
+        setLoading(false);
       } catch (error) {
         setError(false);
         console.log(error);
         setError(true);
+        setLoading(false);
       }
     };
   }, []);
@@ -102,7 +118,7 @@ export default function Home() {
                 className="h-[450px]"
                 style={{
                   background: `url(${img}) center no-repeat`,
-                  backgroundSize: 'cover',
+                  backgroundSize: "cover",
                 }}
               ></div>
             </SwiperSlide>
@@ -114,9 +130,9 @@ export default function Home() {
       <div className="absolute top-24 flex flex-col gap-1 sm:gap-3 py-10 px-5 md:py-15 md:px-16 z-10">
         <h1
           className="font-bold text-slate-700 text-3xl mr-auto text-left lg:text-6xl "
-          style={{ textShadow: '10px -3px 10px #FFFFFF' }}
+          style={{ textShadow: "10px -3px 10px #FFFFFF" }}
         >
-          Find your next{' '}
+          Find your next{" "}
           <span className="text-slate-500 bg-gradient">perfect</span> <br />
           place with <span className="text-slate-500">ease</span>
         </h1>
@@ -132,7 +148,7 @@ export default function Home() {
         </p>
 
         <Link
-          to={'/search'}
+          to={"/search"}
           className="bg-slate-500 mr-auto font-semibold rounded-lg p-2 sm:p-3 hover:underline text-blue-900"
           style={customStyles}
         >
@@ -143,75 +159,118 @@ export default function Home() {
       {/* fature listing by offer, rent and sale */}
       <div className="max-w-full mx-2 sm:mx-5 md:mx-10 p-2 flex flex-col gap-8 my-3 md:my-5 overflow-x-hidden">
         <div>
-          {offerListings && offerListings.length > 0 && (
-            <div className="w-full">
-              <div className="flex flex-row justify-between items-center text-center">
-                <h1 className=" text-md md:text-2xl  font-bold">
-                  Recent Homes with Offer
-                </h1>
-                <Link
-                  to={'/search?offer=true'}
-                  className="text-sm md:text-lg text-blue-700 font-semibold"
-                >
-                  See more offers
-                </Link>
-              </div>
-              <div className="w-full md:w-[80%]">
-                <div className="flex flex-col md:flex-row gap-4">
-                  {offerListings.map((listing) => (
-                    <ListingItem key={listing._id} listing={listing} />
-                  ))}
-                </div>
-              </div>
+          {loading ? (
+            <div className="text-center py-8">
+              <div className="inline-block animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-blue-500"></div>
+              <p className="mt-2 text-gray-600">Loading properties...</p>
             </div>
+          ) : error ? (
+            <div className="text-center py-8 text-red-500">
+              Failed to load properties. Please try again later.
+            </div>
+          ) : (
+            <>
+              {offerListings && offerListings.length > 0 && (
+                <div className="w-full">
+                  <div className="flex flex-row justify-between items-center text-center">
+                    <h1 className=" text-md md:text-2xl  font-bold">
+                      Recent Homes with Offer
+                    </h1>
+                    <Link
+                      to={"/search?offer=true"}
+                      className="text-sm md:text-lg text-blue-700 font-semibold"
+                    >
+                      See more offers
+                    </Link>
+                  </div>
+                  <div className="w-full md:w-[80%]">
+                    <div className="flex flex-col md:flex-row gap-4">
+                      {offerListings.map((listing) => (
+                        <ListingItem key={listing._id} listing={listing} />
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              )}
+            </>
           )}
         </div>
+
         <div>
-          {rentListings && rentListings.length > 0 && (
-            <div className="w-full">
-              <div className="flex flex-row justify-between items-center text-center">
-                <h1 className=" text-md md:text-2xl  font-bold">
-                  Recent Homes for Rent
-                </h1>
-                <Link
-                  to={'/search?offer=true'}
-                  className="text-sm md:text-lg text-blue-700 font-semibold"
-                >
-                  See more rent
-                </Link>
-              </div>
-              <div className="w-full md:w-[80%]">
-                <div className="flex flex-col md:flex-row gap-4">
-                  {rentListings.map((listing) => (
-                    <ListingItem key={listing._id} listing={listing} />
-                  ))}
-                </div>
-              </div>
+          {loading ? (
+            <div className="text-center py-8">
+              <div className="inline-block animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-blue-500"></div>
+              <p className="mt-2 text-gray-600">Loading rental properties...</p>
             </div>
+          ) : error ? (
+            <div className="text-center py-8 text-red-500">
+              Failed to load rental properties. Please try again later.
+            </div>
+          ) : (
+            <>
+              {rentListings && rentListings.length > 0 && (
+                <div className="w-full">
+                  <div className="flex flex-row justify-between items-center text-center">
+                    <h1 className=" text-md md:text-2xl  font-bold">
+                      Recent Homes for Rent
+                    </h1>
+                    <Link
+                      to={"/search?type=rent"}
+                      className="text-sm md:text-lg text-blue-700 font-semibold"
+                    >
+                      See more rent
+                    </Link>
+                  </div>
+                  <div className="w-full md:w-[80%]">
+                    <div className="flex flex-col md:flex-row gap-4">
+                      {rentListings.map((listing) => (
+                        <ListingItem key={listing._id} listing={listing} />
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              )}
+            </>
           )}
         </div>
+
         <div>
-          {saleListings && saleListings.length > 0 && (
-            <div className="w-full">
-              <div className="flex flex-row justify-between items-center text-center">
-                <h1 className=" text-md md:text-2xl font-bold">
-                  Recent Homes for Sale
-                </h1>
-                <Link
-                  to={'/search?offer=true'}
-                  className=" text-sm md:text-lg text-blue-700 font-semibold"
-                >
-                  See more sale
-                </Link>
-              </div>
-              <div className="w-full md:w-[80%]">
-                <div className="flex flex-col md:flex-row gap-4">
-                  {saleListings.map((listing) => (
-                    <ListingItem key={listing._id} listing={listing} />
-                  ))}
-                </div>
-              </div>
+          {loading ? (
+            <div className="text-center py-8">
+              <div className="inline-block animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-blue-500"></div>
+              <p className="mt-2 text-gray-600">
+                Loading properties for sale...
+              </p>
             </div>
+          ) : error ? (
+            <div className="text-center py-8 text-red-500">
+              Failed to load properties for sale. Please try again later.
+            </div>
+          ) : (
+            <>
+              {saleListings && saleListings.length > 0 && (
+                <div className="w-full">
+                  <div className="flex flex-row justify-between items-center text-center">
+                    <h1 className=" text-md md:text-2xl font-bold">
+                      Recent Homes for Sale
+                    </h1>
+                    <Link
+                      to={"/search?type=sale"}
+                      className=" text-sm md:text-lg text-blue-700 font-semibold"
+                    >
+                      See more sale
+                    </Link>
+                  </div>
+                  <div className="w-full md:w-[80%]">
+                    <div className="flex flex-col md:flex-row gap-4">
+                      {saleListings.map((listing) => (
+                        <ListingItem key={listing._id} listing={listing} />
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              )}
+            </>
           )}
         </div>
       </div>

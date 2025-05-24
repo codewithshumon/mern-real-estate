@@ -12,7 +12,9 @@ export default function Contact({ listing }) {
       try {
         setError(false);
         //if it's a get methon then do not need to sent methot=get
-        const res = await fetch(`/api/user/${listing.userRef}`);
+        const res = await fetch(
+          `${import.meta.env.VITE_BASE_URL}/api/user/${listing.userRef}`
+        );
 
         const data = await res.json();
 

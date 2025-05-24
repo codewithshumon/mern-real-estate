@@ -84,13 +84,16 @@ export default function Profile() {
     e.preventDefault();
     try {
       dispatch(updateUserStart());
-      const res = await fetch(`/api/user/update/${currentUser._id}`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
+      const res = await fetch(
+        `${import.meta.env.VITE_BASE_URL}/api/user/update/${currentUser._id}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(formData),
+        }
+      );
 
       //VERY IMPORTANT
       //If here we don't use await redux store will lose the
@@ -112,9 +115,12 @@ export default function Profile() {
   const handleDeleteUser = async () => {
     try {
       dispatch(deleteUserStart());
-      const res = await fetch(`/api/user/delete/${currentUser._id}`, {
-        method: "DELETE",
-      });
+      const res = await fetch(
+        `${import.meta.env.VITE_BASE_URL}/api/user/delete/${currentUser._id}`,
+        {
+          method: "DELETE",
+        }
+      );
 
       //VERY IMPORTANT
       //If here we don't use await redux store will lose the
@@ -135,9 +141,12 @@ export default function Profile() {
   const handleSignOut = async () => {
     try {
       dispatch(signoutUserStart());
-      const res = await fetch("/api/auth/signout", {
-        method: "GET",
-      });
+      const res = await fetch(
+        `${import.meta.env.VITE_BASE_URL}/api/auth/signout`,
+        {
+          method: "GET",
+        }
+      );
 
       //VERY IMPORTANT
       //If here we don't use await redux store will lose the
@@ -160,9 +169,12 @@ export default function Profile() {
       setFileUploadError(false);
       setListingLoading(true);
 
-      const res = await fetch(`/api/user/listings/${currentUser._id}`, {
-        method: "GET",
-      });
+      const res = await fetch(
+        `${import.meta.env.VITE_BASE_URL}/api/user/listings/${currentUser._id}`,
+        {
+          method: "GET",
+        }
+      );
 
       //VERY IMPORTANT
       //If here we don't use await redux store will lose the
@@ -192,9 +204,12 @@ export default function Profile() {
   const handleDeleteListing = async (listingId) => {
     setListingDeleteError(false);
     try {
-      const res = await fetch(`/api/listing/delete/${listingId}`, {
-        method: "DELETE",
-      });
+      const res = await fetch(
+        `${import.meta.env.VITE_BASE_URL}/api/listing/delete/${listingId}`,
+        {
+          method: "DELETE",
+        }
+      );
 
       //VERY IMPORTANT
       //If here we don't use await redux store will lose the

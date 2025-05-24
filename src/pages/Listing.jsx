@@ -32,9 +32,14 @@ export default function Listing() {
     const fetchListing = async () => {
       try {
         setLoading(true);
-        const res = await fetch(`/api/listing/get/${params.listingId}`, {
-          method: "GET",
-        });
+        const res = await fetch(
+          `${import.meta.env.VITE_BASE_URL}/api/listing/get/${
+            params.listingId
+          }`,
+          {
+            method: "GET",
+          }
+        );
 
         const data = await res.json();
 

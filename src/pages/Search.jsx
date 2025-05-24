@@ -1,6 +1,6 @@
-import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import ListingItem from '../assets/components/ListingItem';
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import ListingItem from "../assets/components/ListingItem";
 
 export default function Search() {
   const navigate = useNavigate();
@@ -9,49 +9,49 @@ export default function Search() {
   const [error, setError] = useState(false);
   const [listing, setListing] = useState([]);
   const [sideberdata, setSideberdata] = useState({
-    searchTerm: '',
-    type: 'all',
+    searchTerm: "",
+    type: "all",
     parking: false,
     furnished: false,
     offer: false,
-    sort: 'created_at',
-    order: 'desc',
+    sort: "created_at",
+    order: "desc",
   });
   const [showMore, setShowMore] = useState(false);
 
   const handleChange = (e) => {
     //seting sideberdata if input id is all/rent/sale
-    if (e.target.id === 'searchTerm') {
+    if (e.target.id === "searchTerm") {
       setSideberdata({ ...sideberdata, searchTerm: e.target.value });
     }
 
     //seting sideberdata if input id is all/rent/sale
     if (
-      e.target.id === 'all' ||
-      e.target.id === 'rent' ||
-      e.target.id === 'sale'
+      e.target.id === "all" ||
+      e.target.id === "rent" ||
+      e.target.id === "sale"
     ) {
       setSideberdata({ ...sideberdata, type: e.target.id });
     }
 
     //seting sideberdata if input id is parking/furnished/offer
     if (
-      e.target.id === 'parking' ||
-      e.target.id === 'furnished' ||
-      e.target.id === 'offer'
+      e.target.id === "parking" ||
+      e.target.id === "furnished" ||
+      e.target.id === "offer"
     ) {
       setSideberdata({
         ...sideberdata,
         [e.target.id]:
-          e.target.checked || e.target.checked === 'true' ? true : false,
+          e.target.checked || e.target.checked === "true" ? true : false,
         //e.target.checked value could be true as variabel or true as string
       });
     }
 
     //seting sideberdata if input id is sort_order and changing the valu created_at/desc
-    if (e.target.id === 'sort_order') {
-      const sort = e.target.value.split('_')[0] || 'created_at';
-      const order = e.target.value.split('_')[1] || 'desc';
+    if (e.target.id === "sort_order") {
+      const sort = e.target.value.split("_")[0] || "created_at";
+      const order = e.target.value.split("_")[1] || "desc";
 
       setSideberdata({ ...sideberdata, sort: sort, order: order });
     }
@@ -66,13 +66,13 @@ export default function Search() {
     //URLSearchParams() if we lef it enpty. it'll take full parmas with query string
     const urlParams = new URLSearchParams();
 
-    urlParams.set('searchTerm', sideberdata.searchTerm);
-    urlParams.set('type', sideberdata.type);
-    urlParams.set('parking', sideberdata.parking);
-    urlParams.set('furnished', sideberdata.furnished);
-    urlParams.set('offer', sideberdata.offer);
-    urlParams.set('sort', sideberdata.sort);
-    urlParams.set('order', sideberdata.order);
+    urlParams.set("searchTerm", sideberdata.searchTerm);
+    urlParams.set("type", sideberdata.type);
+    urlParams.set("parking", sideberdata.parking);
+    urlParams.set("furnished", sideberdata.furnished);
+    urlParams.set("offer", sideberdata.offer);
+    urlParams.set("sort", sideberdata.sort);
+    urlParams.set("order", sideberdata.order);
 
     const searchQuery = urlParams.toString();
 
@@ -84,13 +84,13 @@ export default function Search() {
     //"window.location.search" returns full URL's with query string
     //we can use "window.location.search" or only "location.search"
     const urlParams = new URLSearchParams(location.search);
-    const searchTermFromUrl = urlParams.get('searchTerm');
-    const typeFromUrl = urlParams.get('type');
-    const parkingFromUrl = urlParams.get('parking');
-    const furnishedFromUrl = urlParams.get('furnished');
-    const offerFromUrl = urlParams.get('offer');
-    const sortFromUrl = urlParams.get('sort');
-    const orderFromUrl = urlParams.get('order');
+    const searchTermFromUrl = urlParams.get("searchTerm");
+    const typeFromUrl = urlParams.get("type");
+    const parkingFromUrl = urlParams.get("parking");
+    const furnishedFromUrl = urlParams.get("furnished");
+    const offerFromUrl = urlParams.get("offer");
+    const sortFromUrl = urlParams.get("sort");
+    const orderFromUrl = urlParams.get("order");
 
     if (
       // here if any of these changes then setting setSideberdata
@@ -103,13 +103,13 @@ export default function Search() {
       offerFromUrl
     ) {
       setSideberdata({
-        searchTerm: searchTermFromUrl || '',
-        type: typeFromUrl || 'all',
-        parking: parkingFromUrl === 'true' ? true : false,
-        furnished: furnishedFromUrl === 'true' ? true : false,
-        offer: offerFromUrl === 'true' ? true : false,
-        sort: sortFromUrl || 'created_at',
-        order: orderFromUrl || 'desc',
+        searchTerm: searchTermFromUrl || "",
+        type: typeFromUrl || "all",
+        parking: parkingFromUrl === "true" ? true : false,
+        furnished: furnishedFromUrl === "true" ? true : false,
+        offer: offerFromUrl === "true" ? true : false,
+        sort: sortFromUrl || "created_at",
+        order: orderFromUrl || "desc",
       });
     }
 
@@ -120,7 +120,9 @@ export default function Search() {
 
       const searchQuery = urlParams.toString();
       //geting search result from database of listing
-      const res = await fetch(`/api/listing/search?${searchQuery}`);
+      const res = await fetch(
+        `${import.meta.env.VITE_BASE_URL}/api/listing/search?${searchQuery}`
+      );
       //then converting to json the res that we get from database of listing
       const data = await res.json();
 
@@ -150,11 +152,13 @@ export default function Search() {
     const startIndex = numberOfListing;
 
     const urlParams = new URLSearchParams(location.search);
-    urlParams.set('startIndex', startIndex);
+    urlParams.set("startIndex", startIndex);
     const searchQuery = urlParams.toString();
 
     //geting search result from database of listing
-    const res = await fetch(`/api/listing/search?${searchQuery}`);
+    const res = await fetch(
+      `${import.meta.env.VITE_BASE_URL}/api/listing/search?${searchQuery}`
+    );
     //then converting to json the res that we get from database of listing
     const data = await res.json();
 
@@ -199,7 +203,7 @@ export default function Search() {
                 type="checkbox"
                 id="all"
                 onChange={handleChange}
-                checked={sideberdata.type === 'all'}
+                checked={sideberdata.type === "all"}
               />
               <span>Sale & Rent</span>
             </div>
@@ -209,7 +213,7 @@ export default function Search() {
                 type="checkbox"
                 id="sale"
                 onChange={handleChange}
-                checked={sideberdata.type === 'sale'}
+                checked={sideberdata.type === "sale"}
               />
               <span>Sale</span>
             </div>
@@ -219,7 +223,7 @@ export default function Search() {
                 type="checkbox"
                 id="rent"
                 onChange={handleChange}
-                checked={sideberdata.type === 'rent'}
+                checked={sideberdata.type === "rent"}
               />
               <span>Rent</span>
             </div>
@@ -263,7 +267,7 @@ export default function Search() {
               className="border rounded-lg p-2 w-full"
               id="sort_order"
               onChange={handleChange}
-              defaultValue={'created_at_desc'}
+              defaultValue={"created_at_desc"}
             >
               <option value="createdAt_desc">Latest</option>
               <option value="createdAt_asc">Oldest</option>
