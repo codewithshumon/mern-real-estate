@@ -7,15 +7,15 @@ export default function About() {
     <div className="flex flex-col gap-4">
       <div className="text-center mt-16">
         <h1 className="font-bold text-slate-800 text-3xl lg:text-5xl">
-          About Shumon Estate
+          About Paradise Property Limited
         </h1>
       </div>
       <div className="flex flex-col gap-5 px-20">
         <div>
           <h2 className="text-2xl font-semibold">Our Story</h2>
           <p className="text-lg text-gray-600">
-            Shumon Estate was founded by [Founder's Name] with a vision to
-            create a real estate agency that prioritizes the unique needs of
+            Paradise Property Limited was founded by Micheal Marks with a vision
+            to create a real estate agency that prioritizes the unique needs of
             each client. It all started with a belief that real estate is not
             just about buying and selling properties but building relationships
             and fostering trust. Our journey began with a single goal: to
@@ -26,16 +26,18 @@ export default function About() {
         <div>
           <h2 className="text-2xl font-semibold">Our Mission</h2>
           <p className="text-lg text-gray-600">
-            Our mission at Shumon Estate is to be your guide in the real estate
-            world, offering a blend of expertise, integrity, and innovation. We
-            strive to make every real estate transaction a seamless, enjoyable
-            experience, driven by a commitment to your best interests. We
-            believe in exceeding your expectations and ensuring your complete
-            satisfaction.
+            Our mission at Paradise Property Limited is to be your guide in the
+            real estate world, offering a blend of expertise, integrity, and
+            innovation. We strive to make every real estate transaction a
+            seamless, enjoyable experience, driven by a commitment to your best
+            interests. We believe in exceeding your expectations and ensuring
+            your complete satisfaction.
           </p>
         </div>
         <div>
-          <h2 className="text-2xl font-semibold">Why Choose Shumon Estate?</h2>
+          <h2 className="text-2xl font-semibold">
+            Why Choose Paradise Property Limited?
+          </h2>
           <ul className="list-disc pl-6 text-lg text-gray-600">
             <li>
               <strong>Expertise:</strong> Our team comprises experienced
@@ -55,16 +57,16 @@ export default function About() {
               throughout the process, so you can make confident decisions.
             </li>
             <li>
-              <strong>Strong Network:</strong> Shumon Estate has built strong
-              connections within the industry. We can connect you with mortgage
-              brokers, legal professionals, home inspectors, and other experts
-              to ensure a smooth experience.
+              <strong>Strong Network:</strong> Paradise Property Limited has
+              built strong connections within the industry. We can connect you
+              with mortgage brokers, legal professionals, home inspectors, and
+              other experts to ensure a smooth experience.
             </li>
             <li>
               <strong>Community Involvement:</strong> We're not just passionate
-              about real estate; we're passionate about our community. Shumon
-              Estate is involved in local initiatives and believes in giving
-              back.
+              about real estate; we're passionate about our community. Paradise
+              Property Limited is involved in local initiatives and believes in
+              giving back.
             </li>
           </ul>
         </div>
@@ -96,21 +98,21 @@ export default function About() {
         <div>
           <h2 className="text-2xl font-semibold">Our Commitment to You</h2>
           <p className="text-lg text-gray-600">
-            At Shumon Estate, our commitment goes beyond transactions; it's
-            about building lasting relationships with our clients. We are
-            devoted to your success, and our success is measured by your
-            satisfaction. We believe in setting the industry standard for
-            excellence, and we'll continue to evolve with the ever-changing real
-            estate landscape.
+            At Paradise Property Limited, our commitment goes beyond
+            transactions; it's about building lasting relationships with our
+            clients. We are devoted to your success, and our success is measured
+            by your satisfaction. We believe in setting the industry standard
+            for excellence, and we'll continue to evolve with the ever-changing
+            real estate landscape.
           </p>
         </div>
         <div>
           <h2 className="text-2xl font-semibold">Contact Us</h2>
           <p className="text-lg text-gray-600">
-            Ready to embark on your real estate journey with Shumon Estate?
-            Reach out to our dedicated team today to get started. We look
-            forward to being your trusted partner in achieving your real estate
-            goals.
+            Ready to embark on your real estate journey with Paradise Property
+            Limited? Reach out to our dedicated team today to get started. We
+            look forward to being your trusted partner in achieving your real
+            estate goals.
           </p>
           <address>
             <p className="text-lg text-gray-600">
@@ -124,8 +126,9 @@ export default function About() {
         </div>
         <div>
           <p className="text-lg text-gray-600 mb-7 font-semibold  text-center">
-            Thank you for considering Shumon Estate for your real estate needs.
-            We are here to turn your property aspirations into reality.
+            Thank you for considering Paradise Property Limited for your real
+            estate needs. We are here to turn your property aspirations into
+            reality.
           </p>
         </div>
       </div>
