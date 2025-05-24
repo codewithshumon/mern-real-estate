@@ -4,7 +4,7 @@ import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
 
 //this is only importing form deploy or production to "render.com website"
-import path, { dirname } from "path";
+import path from "path";
 
 //enternal export
 import userRouter from "./routes/userRoute.js"; //when we export default can change the name
